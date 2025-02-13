@@ -23,14 +23,14 @@ class Article(models.Model):
 
 class Ventes(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    article_nom = models.CharField(max_length=100)
-    quantite = models.PositiveIntegerField()
-    prix = models.FloatField()
+    quantite_achetee = models.PositiveIntegerField()
+    prix = models.FloatField(editable=False)
     prix_total = models.FloatField(editable=False)
     date_vente = models.DateTimeField(auto_now_add=True)
  
     def save(self, *args, **kwargs):
         # Calcul du prix total
+        self.prix = self.article.prix
         self.prix_total = self.quantite_achetee * self.article.prix
 
         # Vérification du stock
@@ -65,8 +65,8 @@ class Facture(models.Model):
         super().save(*args, **kwargs)
 
 class Stock_article(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    stock_article = models.PositiveIntegerField()
+    article = models.OneToOneField(Article, on_delete=models.CASCADE)
+    stock_article = models.PositiveIntegerField(editable=False)
     date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
