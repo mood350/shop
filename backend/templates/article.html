@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header class="masthead">
+        <style>
+            /* Style du header */
+.masthead {
+    position: relative;
+    background-color: #f8f9fa;
+    background-size: cover;
+    padding: 60px 0;
+    text-align: center;
+    color: #333;
+}
+
+.masthead .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.site-heading {
+    position: relative;
+    z-index: 2;
+}
+
+.site-heading h3 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style du tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1.2em;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-heading h3 {
+        font-size: 2rem;
+    }
+
+    table {
+        font-size: 1em;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+}
+
+        </style>
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mt-3 left">
+                    <div class="site-heading">
+                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des articles</h3>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <table>
+        <tr>
+            <th>Catégorie</th>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Quantité en stock</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for article in articles %}
+        <tr>
+            <td>{{ article.categorie }}</td>
+            <td>{{ article.nom }}</td>
+            <td>{{ article.prix }} FCFA</td>
+            <td>{{article.stock }}</td>
+        </tr>
+    {% endfor %}
+</table>
+    </div>
+{% endblock %}
