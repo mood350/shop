@@ -42,6 +42,7 @@ def ajouter_article(request):
         form = ArticleForm(request.POST)
         if form.is_valid():
             form.save()
+            redirect('article')
     else:
         form = ArticleForm()
     return render(request, 'ajouter_article.html', {'form': form})
@@ -52,6 +53,7 @@ def ajouter_categorie(request):
         form = CategorieForm(request.POST)
         if form.is_valid():
             form.save()
+            redirect('categorie')
     else:
         form = CategorieForm()
     return render(request, 'ajouter_categorie.html', {'form': form})
@@ -62,6 +64,7 @@ def ajouter_vente(request):
         form = VentesForm(request.POST)
         if form.is_valid():
             form.save()
+            redirect('vente')
     else:
         form = VentesForm()
     return render(request, 'ajouter_vente.html', {'form': form})
@@ -72,6 +75,7 @@ def ajouter_Facture(request):
         form = FactureForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('facture')
     else:
         form = FactureForm()
     return render(request, 'ajouter_Facture.html', {'form': form})
@@ -82,6 +86,7 @@ def ajouter_client(request):
         form = ClientForm(request.POST)
         if form.is_valid():
             form.save()
+            redirect('client')
     else:
         form = ClientForm()
     return render(request, 'ajouter_client.html', {'form': form})
@@ -186,6 +191,21 @@ def supprimer_Facture(request, id):
     facture.delete()
     return redirect('liste_facture')
 
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+@login_required
+def modifier_Facture(request, id):
+    facture = get_object_or_404(Facture, id=id)
+    if request.method == 'POST':
+        form = FactureForm(request.POST, instance=facture)
+        if form.is_valid():
+            form.save()
+            return redirect('facture')
+    else:
+        form = FactureForm(instance=facture)
+    return render(request, 'modifier_Facture.html', {'form': form})
 
 @login_required
 def acceuil(request):

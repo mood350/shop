@@ -48,12 +48,11 @@ class VentesForm(forms.ModelForm):
 class FactureForm(forms.ModelForm):
     class Meta:
         model = Facture
-        fields = ['id_vente', 'id_client', 'nom_client']
+        fields = ['client', 'article', 'quantite']
         widgets = {
-            'id_vente': forms.Select(attrs={'class': 'form-select'}),
-            'id_client': forms.Select(attrs={'class': 'form-select'}),
-            'nom_client': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du client'}),
-            
+            'client': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du client'}),
+            'article': forms.Select(attrs={'class': 'form-select'}),
+            'quantite': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantité'}),
         }
 
 

@@ -4,6 +4,11 @@
     <header class="masthead">
         <style>
             /* Style du header */
+.top{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
 .masthead {
     position: relative;
     background-color: #f8f9fa;
@@ -87,13 +92,16 @@ tr:nth-child(even) {
             </div>
         </div>
     </header>
+    <div class="top">
+        <a href="{% url 'ajouter_article' %}" class="btn btn-success">Ajouter une Article</a>
+    </div>
     <table>
         <tr>
             <th>Catégorie</th>
             <th>Nom</th>
             <th>Prix</th>
             <th>Quantité en stock</th>
-            <th>Ation</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>

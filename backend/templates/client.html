@@ -4,6 +4,9 @@
     <header class="masthead">
         <style>
             /* Style du header */
+            .top{
+                margin: 20px;
+            }
 .masthead {
     position: relative;
     background-color: #f8f9fa;
@@ -87,6 +90,9 @@ tr:nth-child(even) {
             </div>
         </div>
     </header>
+    <div class="top">
+        <a href="{% url 'ajouter_client' %}" class="btn btn-success">Ajouter un(e) Client(e)</a>
+    </div>
     <table>
         <tr>
             <th>Nom</th>

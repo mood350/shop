@@ -20,6 +20,9 @@
         body {
             position: relative;
         }
+        li{
+            margin-right: 10px;
+        }
         img {
             border-radius: 6px;
             margin-bottom: 20px;
@@ -80,20 +83,23 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{% url 'categorie' %}">Catégories</a>
+                        <a class="btn btn-primary" href="{% url 'categorie' %}">Catégories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{% url 'article' %}">Articles</a>
+                        <a class="btn btn-primary" href="{% url 'article' %}">Articles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{% url 'vente' %}">Ventes</a>
+                        <a class="btn btn-primary" href="{% url 'vente' %}">Ventes</a>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary" href="{% url 'facture' %}">Facture</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{% url 'client' %}">Clients
+                        <a class="btn btn-primary" href="{% url 'client' %}">Clients
                     </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{% url 'deconnexion' %}">Deconnexion</a>
+                        <a class="btn btn-danger" href="{% url 'deconnexion' %}">Deconnexion</a>
                     </li>
                 </ul>
             </div>
@@ -113,6 +119,9 @@
             </a>
             <a href="{% url 'ajouter_vente' %}">
                 <button>Ajouter une Vente</button>
+            </a>
+            <a href="{% url 'ajouter_Facture' %}">
+                <button>Ajouter une Facture</button>
             </a>
             <a href="{% url 'ajouter_client' %}">
                 <button>Ajouter un Client</button>

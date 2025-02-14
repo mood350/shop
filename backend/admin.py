@@ -12,7 +12,7 @@ class ArticleAdmin(admin.ModelAdmin):
 admin.site.register(Article, ArticleAdmin)
 
 class FactureAdmin(admin.ModelAdmin):
-    list_display = ('nom_client', 'prix_total', 'date_Facture')
+    list_display = ('client', 'prix_total', 'date_Facture')
     list_filter = ('date_Facture',)
 admin.site.register(Facture, FactureAdmin)
 

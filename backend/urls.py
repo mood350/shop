@@ -28,5 +28,7 @@ urlpatterns = [
     path('supprimer_client/<int:id>/', views.supprimer_client, name='supprimer_client'),
     path('supprimer_vente/<int:id>/', views.supprimer_vente, name='supprimer_vente'),
     path('supprimer_Facture/<int:id>/', views.supprimer_Facture, name='supprimer_Facture'),
+    path('modifier_Facture/<int:id>/', views.modifier_Facture, name='modifier_Facture'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     
 ]
