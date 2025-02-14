@@ -80,8 +80,7 @@ tr:nth-child(even) {
             <div class="row">
                 <div class="col-md-8 mt-3 left">
                     <div class="site-heading">
-                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des articles</h3>
-                        
+                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des catégories</h3>
                     </div>
                 </div>
             </div>
@@ -90,22 +89,16 @@ tr:nth-child(even) {
     <table>
         <tr>
             <th>Catégorie</th>
-            <th>Nom</th>
-            <th>Prix</th>
-            <th>Quantité en stock</th>
-            <th>Ation</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-    {% for article in articles %}
+    {% for categorie in categories %}
         <tr>
-            <td>{{ article.categorie }}</td>
-            <td>{{ article.nom }}</td>
-            <td>{{ article.prix }} FCFA</td>
-            <td>{{article.stock }}</td>
+            <td>{{ categorie.nom_categorie }}</td>
             <td>
-                <a href="{% url 'modifier_article' article.id %}" class="btn btn-primary">Modifier</a>
-                <a href="{% url 'supprimer_article' article.id %}" class="btn btn-danger">Supprimer</a>
+                <a href="{% url 'modifier_categorie' categorie.id %}" class="btn btn-primary">Modifier</a>
+                <a href="{% url 'supprimer_categorie' categorie.id %}" class="btn btn-danger">Supprimer</a>
             </td>
         </tr>
     {% endfor %}

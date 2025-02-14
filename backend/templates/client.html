@@ -80,7 +80,7 @@ tr:nth-child(even) {
             <div class="row">
                 <div class="col-md-8 mt-3 left">
                     <div class="site-heading">
-                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des articles</h3>
+                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des clients</h3>
                         
                     </div>
                 </div>
@@ -89,23 +89,21 @@ tr:nth-child(even) {
     </header>
     <table>
         <tr>
-            <th>Catégorie</th>
             <th>Nom</th>
-            <th>Prix</th>
-            <th>Quantité en stock</th>
-            <th>Ation</th>
+            <th>Prénom</th>
+            <th>Numéro de Téléphone</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-    {% for article in articles %}
+    {% for client in clients %}
         <tr>
-            <td>{{ article.categorie }}</td>
-            <td>{{ article.nom }}</td>
-            <td>{{ article.prix }} FCFA</td>
-            <td>{{article.stock }}</td>
+            <td>{{ client.nom }}</td>
+            <td>{{ client.prenoms }}</td>
+            <td>{{ client.telephone }}</td>
             <td>
-                <a href="{% url 'modifier_article' article.id %}" class="btn btn-primary">Modifier</a>
-                <a href="{% url 'supprimer_article' article.id %}" class="btn btn-danger">Supprimer</a>
+                <a href="{% url 'modifier_client' client.id %}" class="btn btn-primary">Modifier</a>
+                <a href="{% url 'supprimer_client' client.id %}" class="btn btn-danger">Supprimer</a>
             </td>
         </tr>
     {% endfor %}

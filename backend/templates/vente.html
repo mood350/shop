@@ -72,6 +72,11 @@ tr:nth-child(even) {
     th, td {
         padding: 10px;
     }
+    .top-right-button {
+                    top: 10px;
+                    right: 10px;
+                    margin: 15px;
+                }
 }
 
         </style>
@@ -80,32 +85,37 @@ tr:nth-child(even) {
             <div class="row">
                 <div class="col-md-8 mt-3 left">
                     <div class="site-heading">
-                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des articles</h3>
+                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des ventes</h3>
                         
                     </div>
                 </div>
             </div>
         </div>
     </header>
+    <div class="top-right-button">
+        <a href="{% url 'ajouter_vente' %}" class="btn btn-success">+ Ajouter une Vente</a>
+    </div>
     <table>
         <tr>
-            <th>Catégorie</th>
-            <th>Nom</th>
+            <th>Article</th>
+            <th>Quantité</th>
             <th>Prix</th>
-            <th>Quantité en stock</th>
-            <th>Ation</th>
+            <th>Prix total</th>
+            <th>Date</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-    {% for article in articles %}
+    {% for vente in ventes %}
         <tr>
-            <td>{{ article.categorie }}</td>
-            <td>{{ article.nom }}</td>
-            <td>{{ article.prix }} FCFA</td>
-            <td>{{article.stock }}</td>
+            <td>{{ vente.article }}</td>
+            <td>{{ vente.quantite_achetee }}</td>
+            <td>{{ vente.prix }} FCFA</td>
+            <td>{{ vente.prix_total }} FCFA</td>
+            <td>{{ vente.date_vente }} FCFA</td>
             <td>
-                <a href="{% url 'modifier_article' article.id %}" class="btn btn-primary">Modifier</a>
-                <a href="{% url 'supprimer_article' article.id %}" class="btn btn-danger">Supprimer</a>
+                <a href="{% url 'modifier_vente' vente.id %}" class="btn btn-primary">Modifier</a>
+                <a href="{% url 'supprimer_vente' vente.id %}" class="btn btn-danger">Supprimer</a>
             </td>
         </tr>
     {% endfor %}

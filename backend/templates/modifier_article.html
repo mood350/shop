@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Modifier la Vente</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group mt-3">
+                <label for="categorie">Catégorie</label>
+                {{ form.categorie }}
+            </div>
+            <div class="form-group">
+                <label for="article">Nom</label>
+                {{ form.nom }}
+            </div>
+            <div class="form-group mt-3">
+                <label for="prix">Prix</label>
+                {{ form.prix }}
+            </div>
+            <div class="form-group mt-3">
+                <label for="stock">Quantité en stock</label>
+                {{ form.stock }}
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Enregistrer les modifications</button>
+            <a href="{% url 'article' %}" class="btn btn-secondary mt-4">Annuler</a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Modifier la categorie</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nom">Nom du client</label>
+                {{ form.nom }}
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom du client</label>
+                {{ form.prenoms }}
+            </div>
+            <div class="form-group">
+                <label for="telephone">Téléphone du client</label>
+                {{ form.telephone }}
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Enregistrer les modifications</button>
+            <a href="{% url 'client' %}" class="btn btn-secondary mt-4">Annuler</a>
+        </form>
+    </div>
+{% endblock %}

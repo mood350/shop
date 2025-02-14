@@ -1,6 +1,11 @@
 from django.db import models
 # Create your models here.
 
+class Utilisateur(models.Model):
+    nom = models.CharField(max_length=50)  
+    mot_de_passe = models.CharField(max_length=50)
+
+
 class Client(models.Model):
     nom = models.CharField(max_length=100)
     prenoms = models.CharField(max_length=100)
@@ -50,9 +55,10 @@ class Ventes(models.Model):
         return self.article.nom
     
 class Facture(models.Model):
-    id_facture = models.IntegerField()
-    id_vente = models.ForeignKey(Ventes, on_delete=models.CASCADE)
-    id_client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    id_vente = models.ForeignKey(Ventes, on_delete=models.CASCADE, null= True)
+    id_client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    id_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+    article = models.CharField(max_length=100, null=True)
     #le prix total est inmodifiable manuellement
     prix_total = models.FloatField(editable=False)
     nom_client = models.CharField(max_length=100)
@@ -62,13 +68,5 @@ class Facture(models.Model):
     def save(self, *args, **kwargs):
         prix_total = self.id_vente.prix_total
         nom_client = self.id_client.nom
-        super().save(*args, **kwargs)
-
-class Stock_article(models.Model):
-    article = models.OneToOneField(Article, on_delete=models.CASCADE)
-    stock_article = models.PositiveIntegerField(editable=False)
-    date = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        self.stock_article = self.article.stock
+        article = self.id_article.nom
         super().save(*args, **kwargs)

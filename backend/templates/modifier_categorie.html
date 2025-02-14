@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Modifier la categorie</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nom_categorie">Nom de la Catégorie</label>
+                {{ form.nom_categorie }}
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Enregistrer les modifications</button>
+            <a href="{% url 'vente' %}" class="btn btn-secondary mt-4">Annuler</a>
+        </form>
+    </div>
+{% endblock %}

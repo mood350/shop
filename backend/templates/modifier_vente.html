@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Modifier la Vente</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="article">Article</label>
+                {{ form.article }}
+            </div>
+            <div class="form-group mt-3">
+                <label for="quantite_achetee">Quantité Achetée</label>
+                {{ form.quantite_achetee }}
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Enregistrer les modifications</button>
+            <a href="{% url 'vente' %}" class="btn btn-secondary mt-4">Annuler</a>
+        </form>
+    </div>
+{% endblock %}

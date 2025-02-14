@@ -43,13 +43,23 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav ml-auto ">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{% url 'article' %}">Article</a>
+                        <a class="nav-link text-dark" href="{% url 'categorie' %}">Catégories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">Ventes</a>
+                        <a class="nav-link text-dark" href="{% url 'article' %}">Articles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">About</a>
+                        <a class="nav-link text-dark" href="{% url 'vente' %}">Ventes</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" href="{% url 'facture' %}">Facture</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{% url 'client' %}">Clients
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{% url 'deconnexion' %}">Deconnexion</a>
                     </li>
                 </ul>
             </div>

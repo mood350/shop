@@ -25,8 +25,3 @@ class ClientAdmin(admin.ModelAdmin):
     list_display = ('nom', 'prenoms', 'telephone')
 
 admin.site.register(Client, ClientAdmin)
-
-class StockAdmin(admin.ModelAdmin):
-    list_display = ('article', 'stock_article')
-
-admin.site.register(Stock_article, StockAdmin)
