@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <meta charset="utf-8">
+    <title>Facture N°{{ facture.client }}</title>
+    
+</head>
+<body>
+    <style>
+        /* Bouton Retour à la liste */
+        .container {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        /* Général */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+    
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+        }
+    
+        .facture-details {
+            background-color: #ffffff;
+            padding: 30px;
+            margin: 20px auto;
+            width: 30%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Détails de la facture */
+        .facture-details p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #555;
+        }
+    
+        .facture-details p strong {
+            font-weight: bold;
+        }
+    
+        /* Titre de la facture */
+        h1 {
+            color: #17a2b8;
+            font-weight: 600;
+        }
+    
+        /* Ajout d'un tableau stylisé (si nécessaire) */
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+    
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+        }
+    
+        table th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+    
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+    
+        table tr:hover {
+            background-color: #f1f3f5;
+        }
+    
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            color: #888;
+            margin-top: 50px;
+        }
+    
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    
+        /* Responsive */
+        @media (max-width: 768px) {
+            .facture-details {
+                width: 95%;
+                padding: 20px;
+            }
+    
+            h1 {
+                font-size: 2rem;
+            }
+    
+            .facture-details p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <h1>Facture N°{{ facture.id }}</h1>
+    <div class="facture-details">
+        <p>Client : {{ facture.client }}</p>
+        <p>Article : {{ facture.nom_article }}</p>
+        <p>Quantité : {{ facture.quantite }}</p>
+        <p>Prix Unitaire : {{ facture.prix }} FCFA</p>
+        <p>Total : {{ facture.prix_total }} FCFA</p>
+        <p>Date : {{ facture.date_Facture }}</p>
+    </div>
+    <div class="container">
+        <a href="{% url 'facture' %}" class="btn btn-secondary" >Retour à la liste</a>
+    </div>
+</body>
+{% endblock %}
+

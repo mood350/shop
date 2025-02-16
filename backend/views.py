@@ -1,10 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .models import *
 from .forms import *
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 # Create your views here.
 @login_required
@@ -31,7 +34,7 @@ def vente(request):
     ventes = Ventes.objects.all()
     return render(request, 'vente.html', {'ventes': ventes})
 
-@login_required
+
 def facture(request):
     factures = Facture.objects.all()
     return render(request, 'facture.html', {'factures': factures})
@@ -214,3 +217,8 @@ def acceuil(request):
 def deconnexion(request):
     logout(request)
     return redirect('connexion')
+
+@login_required
+def facture_details(request, id):
+    facture = get_object_or_404(Facture, id=id)  # Récupère la facture par ID ou affiche une erreur 404
+    return render(request, 'facture_details.html', {'facture': facture})

@@ -115,6 +115,7 @@ tr:nth-child(even) {
             <td>
                 <a href="{% url 'modifier_Facture' facture.id %}" class="btn btn-primary">Modifier</a>
                 <a href="{% url 'supprimer_Facture' facture.id %}" class="btn btn-danger">Supprimer</a>
+                <a href="{% url 'facture_details' facture.id %}" class="btn btn-success">Afficher la facture</a>
             </td>
         </tr>
     {% endfor %}
