@@ -30,4 +30,5 @@ urlpatterns = [
     path('supprimer_Facture/<int:id>/', views.supprimer_Facture, name='supprimer_Facture'),
     path('modifier_Facture/<int:id>/', views.modifier_Facture, name='modifier_Facture'),
     path('facture/<int:id>/', views.facture_details, name='facture_details'),
+    path('article/', views.recherche_article, name='recherche_article'),
 ]

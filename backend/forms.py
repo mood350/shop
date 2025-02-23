@@ -55,8 +55,6 @@ class FactureForm(forms.ModelForm):
             'quantite': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantité'}),
         }
 
-
-
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="Password",
@@ -71,3 +69,10 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ("password1", "password2")
+
+class RechercheArticleForm(forms.Form):
+    nom = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom de l\'article'})
+    )

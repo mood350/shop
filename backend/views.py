@@ -222,3 +222,28 @@ def deconnexion(request):
 def facture_details(request, id):
     facture = get_object_or_404(Facture, id=id)  # Récupère la facture par ID ou affiche une erreur 404
     return render(request, 'facture_details.html', {'facture': facture})
+
+def recherche_article(request):
+    form = RechercheArticleForm(request.GET or None)  # Utilisation de GET au lieu de POST
+    articles = Article.objects.all()  # On commence par tous les articles
+
+    if form.is_valid():
+        nom = form.cleaned_data['nom']
+        if nom:
+            articles = articles.filter(nom__icontains=nom)
+        
+        tri = request.GET.get('tri', 'nom')
+        if tri == 'nom':
+            articles = articles.order_by('nom')
+        elif tri == 'prix_croissant':
+            articles = articles.order_by('prix')
+        elif tri == 'prix_decroissant':
+            articles = articles.order_by('-prix')
+        elif tri == 'stock':
+            articles = articles.order_by('-stock')
+
+        return render(request, 'recherche_article.html', {
+            'form': form,
+            'articles': articles,
+            'tri': tri  # On passe l'option de tri au template
+        })

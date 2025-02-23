@@ -1,6 +1,11 @@
 from django.db import models
 # Create your models here.
 
+PAYEMENT_CHOICES = (
+    (0, 'Mixx  By Yas'),
+    (1, 'Moov Money'),
+)
+
 class Utilisateur(models.Model):
     nom = models.CharField(max_length=50)  
     mot_de_passe = models.CharField(max_length=50)
@@ -29,6 +34,8 @@ class Article(models.Model):
 class Ventes(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     quantite_achetee = models.PositiveIntegerField()
+    # Moyend de paiement Mixx By Yas ou Moov Money
+    payement = models.IntegerField(choices=PAYEMENT_CHOICES, default=0)
     prix = models.FloatField(editable=False)
     prix_total = models.FloatField(editable=False)
     date_vente = models.DateTimeField(auto_now_add=True)

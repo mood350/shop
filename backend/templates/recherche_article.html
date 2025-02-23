@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Style du tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1.2em;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-heading h3 {
+        font-size: 2rem;
+    }
+
+    table {
+        font-size: 1em;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+}
+</style>
+    <h1>Rechercher des articles</h1>
+
+    <form method="GET">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <label for="tri">Trier par :</label>
+        <select name="tri" id="tri" class="form-select" onchange="this.form.submit()">
+            <option value="nom" {% if tri = 'nom' %}selected{% endif %}>Nom (A-Z)</option>
+            <option value="prix_croissant" {% if tri == 'prix_croissant' %}selected{% endif %}>Prix (croissant)</option>
+            <option value="prix_decroissant" {% if tri == 'prix_decroissant' %}selected{% endif %}>Prix (décroissant)</option>
+            <option value="stock" {% if tri == 'stock' %}selected{% endif %}>Stock (le plus élevé)</option>
+        </select>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <h2>Résultats</h2>
+    {% if articles %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom de l'article</th>
+                    <th>Catégorie</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.nom }}</td>
+                        <td>{{ article.categorie.nom_categorie }}</td>
+                        <td>{{ article.prix }} FCFA</td>
+                        <td>{{ article.stock }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun article trouvé.</p>
+    {% endif %}
+{% endblock %}

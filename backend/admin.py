@@ -17,7 +17,7 @@ class FactureAdmin(admin.ModelAdmin):
 admin.site.register(Facture, FactureAdmin)
 
 class VentesAdmin(admin.ModelAdmin):
-    list_display = ('article', 'quantite_achetee', 'prix', 'prix_total', 'date_vente')
+    list_display = ('article', 'quantite_achetee', 'prix', 'prix_total', 'payement', 'date_vente')
     list_filter = ('date_vente',)
 admin.site.register(Ventes, VentesAdmin)
 
