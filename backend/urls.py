@@ -27,8 +27,10 @@ urlpatterns = [
     path('supprimer_categorie/<int:id>/', views.supprimer_categorie, name='supprimer_categorie'),
     path('supprimer_client/<int:id>/', views.supprimer_client, name='supprimer_client'),
     path('supprimer_vente/<int:id>/', views.supprimer_vente, name='supprimer_vente'),
+    path('vente/supprimer/<int:id>/', views.confirmer_suppression, name='confirmer_suppression'),
     path('supprimer_Facture/<int:id>/', views.supprimer_Facture, name='supprimer_Facture'),
     path('modifier_Facture/<int:id>/', views.modifier_Facture, name='modifier_Facture'),
     path('facture/<int:id>/', views.facture_details, name='facture_details'),
     path('article/', views.recherche_article, name='recherche_article'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]

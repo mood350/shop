@@ -223,6 +223,37 @@ def facture_details(request, id):
     facture = get_object_or_404(Facture, id=id)  # Récupère la facture par ID ou affiche une erreur 404
     return render(request, 'facture_details.html', {'facture': facture})
 
+@login_required
+def confirmer_suppression(request, id):
+    vente = get_object_or_404(Ventes, id=id)
+    if request.method == 'POST':  # Si le formulaire de confirmation est soumis
+        vente.delete()
+        messages.success(request, 'Vente supprimée avec succès!')
+        return redirect('vente')
+    return render(request, 'confirmer_suppression.html', {'vente': vente})
+
+@login_required
+def dashboard(request):
+    # Calculer les ventes totales
+    total_ventes = Ventes.objects.aggregate(total_ventes=Count('id'))
+    
+    # Calculer le revenu total
+    revenu_total = Ventes.objects.aggregate(revenu_total=Sum('prix_total'))
+    
+    # Calculer les ventes par mois (exemple pour un graphique)
+    ventes_par_mois = Ventes.objects.extra({'mois': "date_vente::date_trunc('month')"}).values('mois').annotate(ventes_count=Count('id')).order_by('mois')
+
+    # Calculer les articles les plus vendus
+    articles_top = Ventes.objects.values('article').annotate(total_ventes=Sum('quantite_achetee')).order_by('-total_ventes')[:5]
+    
+    context = {
+        'total_ventes': total_ventes['total_ventes'],
+        'revenu_total': revenu_total['revenu_total'],
+        'ventes_par_mois': ventes_par_mois,
+        'articles_top': articles_top,
+    }
+    return render(request, 'dashboard.html', context)
+
 def recherche_article(request):
     form = RechercheArticleForm(request.GET or None)  # Utilisation de GET au lieu de POST
     articles = Article.objects.all()  # On commence par tous les articles

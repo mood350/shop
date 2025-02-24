@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<style>
+    .h2 {
+        margin: 20px;
+    }
+
+    .p {
+        margin: 20px;
+    }
+
+    .form {
+        margin: 20px;
+    }
+    a {
+        margin: 20px;
+    }
+</style>
+<h2 class="h2">Êtes-vous sûr de vouloir supprimer cette vente ?</h2>
+<p class="p"><strong>Vente : </strong>{{ vente }}</p>
+
+<form method="POST" class = "form">
+    {% csrf_token %}
+    <button type="submit"  class="btn btn-danger">Oui, supprimer</button>
+</form>
+
+<a href="{% url 'vente' %}" class="btn btn-success">Annuler</a>
+
+{% endblock %}
