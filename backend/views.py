@@ -56,7 +56,7 @@ def ajouter_categorie(request):
         form = CategorieForm(request.POST)
         if form.is_valid():
             form.save()
-            redirect('categorie')
+            return redirect('categorie')
     else:
         form = CategorieForm()
     return render(request, 'ajouter_categorie.html', {'form': form})
@@ -67,7 +67,7 @@ def ajouter_vente(request):
         form = VentesForm(request.POST)
         if form.is_valid():
             form.save()
-            redirect('vente')
+            return redirect('vente')
     else:
         form = VentesForm()
     return render(request, 'ajouter_vente.html', {'form': form})
@@ -89,7 +89,7 @@ def ajouter_client(request):
         form = ClientForm(request.POST)
         if form.is_valid():
             form.save()
-            redirect('client')
+            return redirect('client')
     else:
         form = ClientForm()
     return render(request, 'ajouter_client.html', {'form': form})

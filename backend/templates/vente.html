@@ -96,9 +96,11 @@ tr:nth-child(even) {
     <table>
         <tr>
             <th>Article</th>
+            <th>Client</th>
             <th>Quantité</th>
             <th>Prix</th>
             <th>Prix total</th>
+            <th>Moyen de Paiement</th>
             <th>Date</th>
             <th>Action</th>
         </tr>
@@ -107,9 +109,11 @@ tr:nth-child(even) {
     {% for vente in ventes %}
         <tr>
             <td>{{ vente.article }}</td>
+            <td>{{vente.clients}}</td>
             <td>{{ vente.quantite_achetee }}</td>
             <td>{{ vente.prix }} FCFA</td>
             <td>{{ vente.prix_total }}</td>
+            <td>{{ vente.payement }}</td>
             <td>{{ vente.date_vente }}</td>
             <td>
                 <a href="{% url 'modifier_vente' vente.id %}" class="btn btn-primary">Modifier</a>

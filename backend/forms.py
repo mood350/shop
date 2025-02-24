@@ -39,10 +39,12 @@ class ArticleForm(forms.ModelForm):
 class VentesForm(forms.ModelForm):
     class Meta:
         model = Ventes
-        fields = ['article', 'quantite_achetee']
+        fields = ['article', 'client', 'quantite_achetee', 'payement']
         widgets = {
             'article': forms.Select(attrs={'class': 'form-select'}),
+            'client': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Nom du client'}),
             'quantite_achetee': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantité achetée'}),
+            'payement': forms.Select(attrs={'class': 'form-select'}),
         }
 
 class FactureForm(forms.ModelForm):
