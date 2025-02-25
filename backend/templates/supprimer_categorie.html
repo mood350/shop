@@ -2,13 +2,13 @@
 {% block content %}
     <div class="container mt-5">
         <h2 class="text-center text-danger">Confirmer la Suppression</h2>
-        <p class="text-center">Voulez-vous vraiment supprimer cette vente ? Cette action est irréversible.</p>
+        <p class="text-center">Voulez-vous vraiment supprimer cette catégorie ? Cette action est irréversible.</p>
         
         <div class="text-center mt-4">
             <form method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Oui, Supprimer</button>
-                <a href="{% url 'vente' %}" class="btn btn-secondary">Annuler</a>
+                <a href="{% url 'categorie' %}" class="btn btn-secondary">Annuler</a>
             </form>
         </div>
     </div>

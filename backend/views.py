@@ -172,32 +172,47 @@ def modifier_categorie(request, id):
 @login_required
 def supprimer_vente(request, id):
     vente = get_object_or_404(Ventes, id=id)
-    vente.delete()
-    return redirect('vente')
+    if request.method == 'POST':  # Si le formulaire de confirmation est soumis
+        vente.delete()
+        messages.success(request, 'Vente supprimée avec succès!')
+        return redirect('vente')  # Redirige vers la liste des ventes
+    return render(request, 'supprimer_vente.html', {'vente': vente})
 
 @login_required
 def supprimer_article(request, id):
     article = get_object_or_404(Article, id=id)
-    article.delete()
-    return redirect('article')
+    if request.method == 'POST':  # Si le formulaire de confirmation est soumis
+        vente.delete()
+        messages.success(request, 'Article supprimé avec succès!')
+        return redirect('article')  # Redirige vers la liste des ventes
+    return render(request, 'supprimer_article.html', {'article': article})
 
 @login_required
 def supprimer_client(request, id):
     client = get_object_or_404(Client, id=id)
-    client.delete()
-    return redirect('client')
+    if request.method == 'POST':  # Si le formulaire de confirmation est soumis
+        client.delete()
+        messages.success(request, 'Client supprimé avec succès!')
+        return redirect('client')  # Redirige vers la liste des clients
+    return render(request, 'supprimer_client.html', {'client': client})
 
 @login_required
 def supprimer_categorie(request, id):
     categorie = get_object_or_404(Categorie, id=id)
-    categorie.delete()
-    return redirect('categorie')
+    if request.method == 'POST':  # Si le formulaire de confirmation est soumis
+        categorie.delete()
+        messages.success(request, 'Catégorie supprimée avec succès!')
+        return redirect('categorie')  # Redirige vers la liste des catégories
+    return render(request, 'supprimer_categorie.html', {'categorie': categorie})
 
 @login_required
 def supprimer_Facture(request, id):
     facture = get_object_or_404(Facture, id=id)
-    facture.delete()
-    return redirect('liste_facture')
+    if request.method == 'POST':  # Si le formulaire de confirmation est soumis
+        facture.delete()
+        messages.success(request, 'Facture supprimée avec succès!')
+        return redirect('facture')  # Redirige vers la liste des factures
+    return render(request, 'supprimer_Facture.html', {'facture': facture})
 
 @login_required
 def dashboard(request):
@@ -229,13 +244,13 @@ def facture_details(request, id):
     return render(request, 'facture_details.html', {'facture': facture})
 
 @login_required
-def confirmer_suppression(request, id):
+def supprimer_vente(request, id):
     vente = get_object_or_404(Ventes, id=id)
     if request.method == 'POST':  # Si le formulaire de confirmation est soumis
         vente.delete()
         messages.success(request, 'Vente supprimée avec succès!')
         return redirect('vente')
-    return render(request, 'confirmer_suppression.html', {'vente': vente})
+    return render(request, 'supprimer_vente.html', {'vente': vente})
 
 @login_required
 def dashboard(request):

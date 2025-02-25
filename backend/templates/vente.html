@@ -96,7 +96,6 @@ tr:nth-child(even) {
     <table>
         <tr>
             <th>Article</th>
-            <th>Client</th>
             <th>Quantité</th>
             <th>Prix</th>
             <th>Prix total</th>
@@ -109,7 +108,6 @@ tr:nth-child(even) {
     {% for vente in ventes %}
         <tr>
             <td>{{ vente.article }}</td>
-            <td>{{vente.clients}}</td>
             <td>{{ vente.quantite_achetee }}</td>
             <td>{{ vente.prix }} FCFA</td>
             <td>{{ vente.prix_total }}</td>
@@ -117,7 +115,7 @@ tr:nth-child(even) {
             <td>{{ vente.date_vente }}</td>
             <td>
                 <a href="{% url 'modifier_vente' vente.id %}" class="btn btn-primary">Modifier</a>
-                <a href="{% url 'confirmer_suppression' vente.id %}" class="btn btn-danger">Supprimer</a>
+                <a href="{% url 'supprimer_vente' vente.id %}" class="btn btn-danger">Supprimer</a>
             </td>
         </tr>
     {% endfor %}
