@@ -1,35 +1,42 @@
-{% extends 'base_generic.html' %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Dashboard des Ventes</h2>
-    
-    <div class="row">
-        <div class="col-md-4">
+    <h1 class="mb-4">Dashboard des Ventes</h1>
+
+    <!-- Filtres -->
+    <form method="GET" class="mb-4" id="filterForm">
+        <select name="periode" class="form-select w-auto d-inline" id="periodeSelect">
+            <option value="aujourdhui" {% if periode == 'aujourdhui' %}selected{% endif %}>Aujourd'hui</option>
+            <option value="semaine" {% if periode == 'semaine' %}selected{% endif %}>Cette Semaine</option>
+            <option value="mois" {% if periode == 'mois' %}selected{% endif %}>Ce Mois</option>
+            <option value="annee" {% if periode == 'annee' %}selected{% endif %}>Cette Année</option>
+            <option value="tous" {% if periode == 'tous' %}selected{% endif %}>Tous</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
+
+    <!-- Statistiques -->
+    <div class="row mb-4">
+        <!-- Chiffre d'Affaires -->
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Ventes Totales</h5>
-                    <p class="card-text">{{ total_ventes }}</p>
+                <div class="card-body" id="caCard">
+                    <h5 class="card-title">Chiffre d'Affaires</h5>
+                    <p class="card-text">{{ revenu_total }} FCFA</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <!-- Produits les Plus Vendus -->
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Revenu Total</h5>
-                    <p class="card-text">{{ revenu_total }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Articles les Plus Vendus</h5>
+                <div class="card-body" id="produitsCard">
+                    <h5 class="card-title">Produits les Plus Vendus</h5>
                     <ul>
-                        {% for article in articles_top %}
-                            <li>{{ article.article.nom }}: {{ article.total_ventes }} unités</li>
+                        {% for article in articles_populaires %}
+                            <li>{{ article.article__nom }} : {{ article.total }} unités</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -37,51 +44,78 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <canvas id="ventesParMois"></canvas>
-        </div>
-
-        <div class="col-md-6">
-            <canvas id="ventesParArticle"></canvas>
+    <!-- Ventes par Mois -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" id="ventesMoisCard">
+                    <h5 class="card-title">Ventes par Mois</h5>
+                    <ul>
+                        {% for vente in ventes_par_mois %}
+                            <li>Mois {{ vente.date_vente__month }} : {{ vente.total }} ventes</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<!-- Script AJAX -->
 <script>
-    // Graphique des ventes par mois
-    var ctx1 = document.getElementById('ventesParMois').getContext('2d');
-    var ventesParMoisChart = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: [{% for vente in ventes_par_mois %}"{{ vente.mois }}",{% endfor %}],
-            datasets: [{
-                label: 'Ventes par mois',
-                data: [{% for vente in ventes_par_mois %}{{ vente.ventes_count }},{% endfor %}],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false
-            }]
-        }
-    });
+    $(document).ready(function() {
+        // On soumet le formulaire avec AJAX
+        $('#filterForm').on('submit', function(e) {
+            e.preventDefault(); // Empêche la soumission classique du formulaire
 
-    // Graphique des ventes par article
-    var ctx2 = document.getElementById('ventesParArticle').getContext('2d');
-    var ventesParArticleChart = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: [{% for article in articles_top %}"{{ article.article.nom }}",{% endfor %}],
-            datasets: [{
-                label: 'Ventes par article',
-                data: [{% for article in articles_top %}{{ article.total_ventes }},{% endfor %}],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        }
+            // Récupérer la valeur de la période sélectionnée
+            var periode = $('#periodeSelect').val();
+
+            // Effectuer la requête AJAX
+            $.ajax({
+                url: "{% url 'dashboard' %}", // Assure-toi que l'URL correspond à ta vue
+                method: "GET",
+                data: { 'periode': periode },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest' // Indique que c'est une requête AJAX
+                },
+                success: function(data) {
+                    // Mettre à jour le contenu des cartes avec les nouvelles données
+
+                    // Chiffre d'Affaires
+                    $('#caCard').html(`
+                        <h5 class="card-title">Chiffre d'Affaires</h5>
+                        <p class="card-text">${data.revenu_total} FCFA</p>
+                    `);
+
+                    // Produits les Plus Vendus
+                    const articles = Array.isArray(data.articles_populaires) ? data.articles_populaires : [];
+                    $('#produitsCard').html(`
+                        <h5 class="card-title">Produits les Plus Vendus</h5>
+                        <ul>
+                            ${articles.map(article => `
+                                <li>${article.article__nom} : ${article.total} unités</li>
+                            `).join('')}
+                        </ul>
+                    `);
+
+                    // Ventes par Mois
+                    const ventesMois = Array.isArray(data.ventes_par_mois) ? data.ventes_par_mois : [];
+                    $('#ventesMoisCard').html(`
+                        <h5 class="card-title">Ventes par Mois</h5>
+                        <ul>
+                            ${ventesMois.map(vente => `
+                                <li>Mois ${vente.date_vente__month} : ${vente.total} ventes</li>
+                            `).join('')}
+                        </ul>
+                    `);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erreur AJAX :", error);
+                    alert("Une erreur est survenue. Veuillez réessayer.");
+                }
+            });
+        });
     });
 </script>
-
-{% endblock %}
+{% endblock content %}

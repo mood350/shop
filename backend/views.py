@@ -6,9 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .models import *
 from .forms import *
+from django.db.models import Count, Sum, F
+from datetime import datetime, timedelta
+from django.utils import timezone
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-
+from django.db.models.functions import TruncMonth
+today = timezone.now()
+from django.http import JsonResponse
 # Create your views here.
 @login_required
 def index(request):
@@ -234,25 +239,47 @@ def confirmer_suppression(request, id):
 
 @login_required
 def dashboard(request):
-    # Calculer les ventes totales
-    total_ventes = Ventes.objects.aggregate(total_ventes=Count('id'))
-    
-    # Calculer le revenu total
-    revenu_total = Ventes.objects.aggregate(revenu_total=Sum('prix_total'))
-    
-    # Calculer les ventes par mois (exemple pour un graphique)
-    ventes_par_mois = Ventes.objects.extra({'mois': "date_vente::date_trunc('month')"}).values('mois').annotate(ventes_count=Count('id')).order_by('mois')
+    # Obtenir la période de filtrage
+    periode = request.GET.get('periode', 'aujourdhui')
+    maintenant = timezone.now()
 
-    # Calculer les articles les plus vendus
-    articles_top = Ventes.objects.values('article').annotate(total_ventes=Sum('quantite_achetee')).order_by('-total_ventes')[:5]
-    
+    # Filtrage par période
+    if periode == 'aujourdhui':
+        ventes = Ventes.objects.filter(date_vente__date=maintenant.date())
+    elif periode == 'semaine':
+        debut_semaine = maintenant - timedelta(days=maintenant.weekday())
+        ventes = Ventes.objects.filter(date_vente__date__gte=debut_semaine.date())
+    elif periode == 'mois':
+        ventes = Ventes.objects.filter(date_vente__year=maintenant.year, date_vente__month=maintenant.month)
+    elif periode == 'annee':
+        ventes = Ventes.objects.filter(date_vente__year=maintenant.year)
+    else:
+        ventes = Ventes.objects.all()
+
+    # Calculs
+    total_ventes = ventes.count()
+    revenu_total = ventes.aggregate(revenu=Sum(F('prix_total')))['revenu'] or 0
+
+    # Articles les plus vendus
+    articles_populaires = list(ventes.values('article__nom').annotate(total=Sum('quantite_achetee')).order_by('-total')[:5])
+
+    # Ventes par mois
+    ventes_par_mois = list(Ventes.objects.filter(date_vente__year=maintenant.year).values('date_vente__month').annotate(total=Count('id')).order_by('date_vente__month'))
+
+    # Préparer le contexte
     context = {
-        'total_ventes': total_ventes['total_ventes'],
-        'revenu_total': revenu_total['revenu_total'],
+        'total_ventes': total_ventes,
+        'revenu_total': revenu_total,
+        'articles_populaires': articles_populaires,
         'ventes_par_mois': ventes_par_mois,
-        'articles_top': articles_top,
+        'periode': periode,
     }
-    return render(request, 'dashboard.html', context)
+
+    # Retourner une réponse JSON si la requête est AJAX
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse(context)
+    else:
+        return render(request, 'dashboard.html', context)
 
 def recherche_article(request):
     form = RechercheArticleForm(request.GET or None)  # Utilisation de GET au lieu de POST

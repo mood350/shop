@@ -73,6 +73,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + ("password1", "password2")
 
 class RechercheArticleForm(forms.Form):
+
     nom = forms.CharField(
         max_length=100,
         required=False,
