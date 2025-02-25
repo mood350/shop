@@ -14,7 +14,8 @@ from reportlab.pdfgen import canvas
 from django.db.models.functions import TruncMonth
 today = timezone.now()
 from django.http import JsonResponse
-# Create your views here.
+
+
 @login_required
 def index(request):
     return render(request, 'index.html')
@@ -38,7 +39,6 @@ def categorie(request):
 def vente(request):
     ventes = Ventes.objects.all()
     return render(request, 'vente.html', {'ventes': ventes})
-
 
 def facture(request):
     factures = Facture.objects.all()
@@ -296,7 +296,7 @@ def dashboard(request):
     else:
         return render(request, 'dashboard.html', context)
 
-def recherche_article(request):
+
     form = RechercheArticleForm(request.GET or None)  # Utilisation de GET au lieu de POST
     articles = Article.objects.all()  # On commence par tous les articles
 

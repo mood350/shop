@@ -84,7 +84,7 @@
             <div class="row">
                 <div class="col-md-8 mt-3 left">
                     <div class="site-heading">
-                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des Facrures</h3>
+                        <h3 class="site-heading my-4 mt-3 text-black">Bienvenue sur la page des Factures</h3>
                         
                     </div>
                 </div>
@@ -97,8 +97,6 @@
     <table>
         <tr>
             <th>Article</th>
-            <th>Nom du client</th>
-            <th>Prix</th>
             <th>Prix total</th>
             <th>Date</th>
             <th>Action</th>
@@ -108,14 +106,12 @@
     {% for facture in factures %}
         <tr>
             <td>{{ facture.article }}</td>
-            <td>{{ facture.client }}</td>
-            <td>{{ facture.prix }} FCFA</td>
             <td>{{ facture.prix_total }} FCFA</td>
             <td>{{ facture.date_Facture }}</td>
             <td>
                 <a href="{% url 'modifier_Facture' facture.id %}" class="btn btn-primary">Modifier</a>
                 <a href="{% url 'supprimer_Facture' facture.id %}" class="btn btn-danger">Supprimer</a>
-                <a href="{% url 'facture_details' facture.id %}" class="btn btn-success">Afficher la facture</a>
+                <a href="{% url 'facture_details' facture.id %}" class="btn btn-success">Afficher les détails</a>
             </td>
         </tr>
     {% endfor %}
