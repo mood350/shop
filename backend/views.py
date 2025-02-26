@@ -12,9 +12,8 @@ from django.utils import timezone
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from django.db.models.functions import TruncMonth
-today = timezone.now()
 from django.http import JsonResponse
-
+today = timezone.now()
 
 @login_required
 def index(request):
@@ -50,7 +49,7 @@ def ajouter_article(request):
         form = ArticleForm(request.POST)
         if form.is_valid():
             form.save()
-            redirect('article')
+            return redirect('article')
     else:
         form = ArticleForm()
     return render(request, 'ajouter_article.html', {'form': form})
@@ -174,7 +173,6 @@ def supprimer_vente(request, id):
     vente = get_object_or_404(Ventes, id=id)
     if request.method == 'POST':  # Si le formulaire de confirmation est soumis
         vente.delete()
-        messages.success(request, 'Vente supprimée avec succès!')
         return redirect('vente')  # Redirige vers la liste des ventes
     return render(request, 'supprimer_vente.html', {'vente': vente})
 
@@ -182,8 +180,7 @@ def supprimer_vente(request, id):
 def supprimer_article(request, id):
     article = get_object_or_404(Article, id=id)
     if request.method == 'POST':  # Si le formulaire de confirmation est soumis
-        vente.delete()
-        messages.success(request, 'Article supprimé avec succès!')
+        article.delete()
         return redirect('article')  # Redirige vers la liste des ventes
     return render(request, 'supprimer_article.html', {'article': article})
 
@@ -192,7 +189,6 @@ def supprimer_client(request, id):
     client = get_object_or_404(Client, id=id)
     if request.method == 'POST':  # Si le formulaire de confirmation est soumis
         client.delete()
-        messages.success(request, 'Client supprimé avec succès!')
         return redirect('client')  # Redirige vers la liste des clients
     return render(request, 'supprimer_client.html', {'client': client})
 
@@ -210,13 +206,8 @@ def supprimer_Facture(request, id):
     facture = get_object_or_404(Facture, id=id)
     if request.method == 'POST':  # Si le formulaire de confirmation est soumis
         facture.delete()
-        messages.success(request, 'Facture supprimée avec succès!')
         return redirect('facture')  # Redirige vers la liste des factures
     return render(request, 'supprimer_Facture.html', {'facture': facture})
-
-@login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
 
 @login_required
 def modifier_Facture(request, id):
@@ -295,28 +286,3 @@ def dashboard(request):
         return JsonResponse(context)
     else:
         return render(request, 'dashboard.html', context)
-
-
-    form = RechercheArticleForm(request.GET or None)  # Utilisation de GET au lieu de POST
-    articles = Article.objects.all()  # On commence par tous les articles
-
-    if form.is_valid():
-        nom = form.cleaned_data['nom']
-        if nom:
-            articles = articles.filter(nom__icontains=nom)
-        
-        tri = request.GET.get('tri', 'nom')
-        if tri == 'nom':
-            articles = articles.order_by('nom')
-        elif tri == 'prix_croissant':
-            articles = articles.order_by('prix')
-        elif tri == 'prix_decroissant':
-            articles = articles.order_by('-prix')
-        elif tri == 'stock':
-            articles = articles.order_by('-stock')
-
-        return render(request, 'recherche_article.html', {
-            'form': form,
-            'articles': articles,
-            'tri': tri  # On passe l'option de tri au template
-        })
